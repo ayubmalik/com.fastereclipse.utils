@@ -4,39 +4,71 @@
     <extension
          point="org.eclipse.ui.commands">
         <category
-            name="Dkill Category"
-            id="dkill.commands.category">
+            name="Derived Resources Category"
+            id="derivedresources.commands.category">
         </category>
         <command
-            name="DKill"
-            categoryId="dkill.commands.category"
-            id="dkill.commands.dkill">
+            name="Toggle Derived Resources"
+            categoryId="derivedresources.commands.category"
+            id="derivedresources.commands.toggle">
        </command>
     </extension>
     <extension
          point="org.eclipse.ui.handlers">
         <handler
-            commandId="dkill.commands.dkill"
-            class="dkill.handlers.PopupHandler">
+            commandId="derivedresources.commands.toggle"
+            class="derivedresources.handlers.ToggleHandler">
         </handler>
     </extension>
     <extension
          point="org.eclipse.ui.menus">
         <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
-            <command label="Bye Cya 1"
-                  commandId="dkill.commands.dkill">
+            <command label="Toggle Derived Resources"
+                  commandId="derivedresources.commands.toggle">
             </command>
         </menuContribution>
         <menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
-            <command commandId="dkill.commands.dkill"
-                label="Kill Derived 1" style="push" tooltip="Find possible derived resource">
+            <command commandId="derivedresources.commands.toggle"
+                label="Toggle Derived Resources" style="push" tooltip="Toggle derived resource">
             </command>
         </menuContribution>
         <menuContribution locationURI="popup:org.eclipse.jdt.ui.ProjectsView">
-            <command commandId="dkill.commands.dkill"
-                label="Kill Derived 2" style="push" tooltip="Find possible derived resources">
+            <command commandId="derivedresources.commands.toggle"
+                label="Toggle Derived Resources" style="push" tooltip="Toggle derived resources">
             </command>
         </menuContribution>
+    </extension>
+    <extension
+          point="org.eclipse.ui.views">
+       <category
+             id="derivedresources.views.category"
+             name="Derived Resources">
+       </category>
+       <view
+             category="derivedresources.views.category"
+             class="derivedresources.views.DerivedResourcesView"
+             icon="icons/sample.gif"
+             id="derivedresources.views.DerivedResourcesView"
+             name="DerivedResourcesView">
+       </view>
+    </extension>
+    <extension
+          point="org.eclipse.ui.perspectiveExtensions">
+       <perspectiveExtension
+             targetID="org.eclipse.jdt.ui.JavaPerspective">
+          <view
+                id="derivedresources.views.DerivedResourcesView"
+                ratio="0.5"
+                relationship="right"
+                relative="org.eclipse.ui.views.ProblemView">
+          </view>
+       </perspectiveExtension>
+    </extension>
+    <extension
+          point="org.eclipse.help.contexts">
+       <contexts
+             file="contexts.xml">
+       </contexts>
     </extension>
 </plugin>
