@@ -12,7 +12,6 @@ import org.eclipse.core.runtime.CoreException;
 
 public class DerivedResources {
 
-    private final List<String> ignoredResources = asList(".classpath", ".project", ".settings", ".git", ".svn");
     private final List<String> candidateDerivedResourceNames = asList("bin", "build", "target");
     private final IWorkspace workspace;
 
@@ -20,37 +19,45 @@ public class DerivedResources {
         this.workspace = workspace;
     }
 
-    public List<String> getAllInWorkspace() {
-        return getFolders();
+    public List<DerivedResource> getAllCandidatesInWorkspace() {
+        return allCandidatesInWorkspace();
     }
 
-    private List<String> getFolders() {
+    public void setAllCandidatesInWorkspaceToDerived(boolean derived) {
+        for (DerivedResource dr : allCandidatesInWorkspace()) {
+            dr.setDerived(derived);
+        }
+    }
+
+    private List<DerivedResource> allCandidatesInWorkspace() {
         IProject[] projects = workspace.getRoot().getProjects();
-        List<String> folders = new ArrayList<String>();
+        List<DerivedResource> candidates = new ArrayList<>();
         try {
-            for (IProject p : projects) {
-                for (IResource m : p.members()) {
-                    if (isCandidate(m)) {
-                        folders.add(makeName(p, m));
-                    }
-                }
-            }
-            return folders;
+            addCandidatesFromAllProjects(projects, candidates);
+            return candidates;
         } catch (CoreException e) {
             e.printStackTrace();
         }
         return null;
     }
 
-    private String makeName(IProject p, IResource m) {
-        StringBuilder sb = new StringBuilder();
-        sb.append(m.isDerived() ? "\u25C8 " : "\u25C7 ").append(p.getName()).append("/").append(m.getName());
-        return sb.toString();
+    private void addCandidatesFromAllProjects(IProject[] projects, List<DerivedResource> candidates)
+            throws CoreException {
+        for (IProject p : projects) {
+            addCandidatesFromSingleProject(candidates, p);
+        }
     }
 
-    private boolean isCandidate(IResource m) {
-        String folder = m.getName();
-        return !ignoredResources.contains(folder) && candidateDerivedResourceNames.contains(folder);
+    private void addCandidatesFromSingleProject(List<DerivedResource> candidates, IProject p) throws CoreException {
+        for (IResource folder : p.members()) {
+            if (isCandidate(folder)) {
+                candidates.add(new DerivedResource(folder));
+            }
+        }
+    }
+
+    private boolean isCandidate(IResource folder) {
+        return candidateDerivedResourceNames.contains(folder.getName());
     }
 
 }
