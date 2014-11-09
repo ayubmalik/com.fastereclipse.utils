@@ -1,5 +1,6 @@
 package derivedresources.views;
 
+import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -57,7 +58,7 @@ public class DerivedResourcesView extends ViewPart {
     private Action action2;
     private Action doubleClickAction;
 
-    private final DerivedResources derivedResources = new DerivedResources();
+    private final DerivedResources derivedResources = new DerivedResources(ResourcesPlugin.getWorkspace());
 
     /*
      * The content provider class is responsible for providing objects to the
@@ -107,7 +108,7 @@ public class DerivedResourcesView extends ViewPart {
         viewer = new TableViewer(parent, SWT.NO_FOCUS | SWT.H_SCROLL | SWT.V_SCROLL);
         viewer.setContentProvider(ArrayContentProvider.getInstance());
         viewer.setLabelProvider(new ViewLabelProvider());
-        viewer.setSorter(new NameSorter()); 
+        viewer.setSorter(new NameSorter());
         viewer.setInput(derivedResources.getAllInWorkspace());
         getSite().setSelectionProvider(viewer);
 

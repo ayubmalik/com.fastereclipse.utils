@@ -17,8 +17,8 @@ public class DerivedResources {
     private final List<String> candidateDerivedResourceNames = asList("bin", "build", "target");
     private final IWorkspace workspace;
 
-    public DerivedResources() {
-        workspace = ResourcesPlugin.getWorkspace();
+    public DerivedResources(IWorkspace workspace) {
+        this.workspace = workspace;
     }
 
     public List<String> getAllInWorkspace() {
