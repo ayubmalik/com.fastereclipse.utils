@@ -10,5 +10,5 @@ Require-Bundle: org.eclipse.ui,
  org.eclipse.core.expressions;bundle-version="3.4.600",
  org.junit
 Bundle-RequiredExecutionEnvironment: JavaSE-1.7
-Export-Package: derivedresources.model,
- derivedresources.views
+Export-Package: com.fastereclipse.derivedresources.model,
+ com.fastereclipse.derivedresources.views

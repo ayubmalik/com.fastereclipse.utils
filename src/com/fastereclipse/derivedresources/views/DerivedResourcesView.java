@@ -1,4 +1,4 @@
-package derivedresources.views;
+package com.fastereclipse.derivedresources.views;
 
 import org.eclipse.core.resources.ResourcesPlugin;
 import org.eclipse.jface.action.Action;
@@ -29,7 +29,7 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.part.ViewPart;
 
-import derivedresources.model.DerivedResources;
+import com.fastereclipse.derivedresources.model.DerivedResources;
 
 /**
  * This sample class demonstrates how to plug-in a new workbench view. The view
