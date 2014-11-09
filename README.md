@@ -1,4 +1,10 @@
-dkill
-=====
+com.fastereclipse.utils
+=======================
 
-Dkill - an eclipse plugin to find "Derived Resources"
+Add a few utilities to make development on Eclipse IDE faster.
+
++Derived Resources
+==================
+
+Quicky identify *all* possible derived resources including in multi-module projects and toggle the "Derived" flag.
+
