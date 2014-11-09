@@ -1,4 +1,4 @@
-package com.fastereclipse.derivedresources.model;
+package com.fastereclipse.utils.dr.model;
 
 import static java.util.Arrays.asList;
 

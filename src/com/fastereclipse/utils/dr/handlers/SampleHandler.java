@@ -1,4 +1,4 @@
-package com.fastereclipse.derivedresources.handlers;
+package com.fastereclipse.utils.dr.handlers;
 
 import org.eclipse.core.commands.AbstractHandler;
 import org.eclipse.core.commands.ExecutionEvent;
