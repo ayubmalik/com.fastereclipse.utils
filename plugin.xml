@@ -22,12 +22,14 @@
     </extension>
     <extension
          point="org.eclipse.ui.menus">
+         <!--
         <menuContribution
             locationURI="menu:org.eclipse.ui.main.menu?after=additions">
             <command label="Toggle Derived Resources"
                   commandId="com.fastereclipse.utils.dr.commands.toggle">
             </command>
         </menuContribution>
+        -->
         <menuContribution locationURI="popup:org.eclipse.jdt.ui.PackageExplorer">
             <command commandId="com.fastereclipse.utils.dr.commands.toggle"
                 label="Toggle Derived Resources" style="push" tooltip="Toggle derived resource">
