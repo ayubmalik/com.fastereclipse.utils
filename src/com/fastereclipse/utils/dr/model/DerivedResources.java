@@ -49,9 +49,12 @@ public class DerivedResources {
     }
 
     private void addCandidatesFromSingleProject(List<DerivedResource> candidates, IProject p) throws CoreException {
-        for (IResource folder : p.members()) {
-            if (isCandidate(folder)) {
-                candidates.add(new DerivedResource(folder));
+        System.out.println("processing project: " + p.getName());
+        if (p.isAccessible()) {
+            for (IResource folder : p.members()) {
+                if (isCandidate(folder)) {
+                    candidates.add(new DerivedResource(folder));
+                }
             }
         }
     }

@@ -161,7 +161,8 @@ public class DerivedResourcesView extends ViewPart {
         try {
             handlerService.executeCommand("com.fastereclipse.utils.dr.commands.toggle", null);
         } catch (Exception ex) {
-            throw new RuntimeException("com.fastereclipse.utils.dr.commands.toggle not found");
+            ex.printStackTrace();
+            throw new RuntimeException("com.fastereclipse.utils.dr.commands.toggle error!");
         }
     }
 }

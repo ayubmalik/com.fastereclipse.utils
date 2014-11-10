@@ -5,11 +5,11 @@
          point="org.eclipse.ui.commands">
         <category
             name="Derived Resources Category"
-            id="com.fastereclipse.utils.dr.commands.category">
+            id="com.fastereclipse.utils.dr.category.toggle">
         </category>
         <command
             name="Toggle Derived Resources"
-            categoryId="com.fastereclipse.utils.dr.commands.category"
+            categoryId="com.fastereclipse.utils.dr.category.toggle"
             id="com.fastereclipse.utils.dr.commands.toggle">
        </command>
     </extension>
@@ -42,11 +42,11 @@
     <extension
           point="org.eclipse.ui.views">
        <category
-             id="com.fastereclipse.utils.dr.views.category"
+             id="com.fastereclipse.utils.dr.category.views"
              name="Derived Resources">
        </category>
        <view
-             category="com.fastereclipse.utils.dr.views.category"
+             category="com.fastereclipse.utils.dr.category.views"
              class="com.fastereclipse.utils.dr.views.DerivedResourcesView"
              icon="icons/sample.gif"
              id="com.fastereclipse.utils.dr.views.DerivedResourcesView"
