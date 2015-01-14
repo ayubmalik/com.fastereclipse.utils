@@ -5,6 +5,8 @@ import static java.util.Arrays.asList;
 import java.util.ArrayList;
 import java.util.List;
 
+import org.eclipse.core.resources.IContainer;
+import org.eclipse.core.resources.IFolder;
 import org.eclipse.core.resources.IProject;
 import org.eclipse.core.resources.IResource;
 import org.eclipse.core.resources.IWorkspace;
@@ -19,44 +21,55 @@ public class DerivedResources {
         this.workspace = workspace;
     }
 
-    public List<DerivedResource> getAllCandidatesInWorkspace() {
-        return allCandidatesInWorkspace();
+    public List<DerivedResource> allDerivedResourcesInWorkspace() {
+        return allCandidateDerivedResourcesInWorkspace();
     }
 
     public void setAllCandidatesInWorkspaceToDerived(boolean derived) {
-        for (DerivedResource dr : allCandidatesInWorkspace()) {
+        for (DerivedResource dr : allCandidateDerivedResourcesInWorkspace()) {
             dr.setDerived(derived);
         }
     }
 
-    private List<DerivedResource> allCandidatesInWorkspace() {
+    private List<DerivedResource> allCandidateDerivedResourcesInWorkspace() {
         IProject[] projects = workspace.getRoot().getProjects();
         List<DerivedResource> candidates = new ArrayList<>();
         try {
             addCandidatesFromAllProjects(projects, candidates);
-            return candidates;
         } catch (CoreException e) {
             e.printStackTrace();
         }
-        return null;
+        return candidates;
     }
 
     private void addCandidatesFromAllProjects(IProject[] projects, List<DerivedResource> candidates)
             throws CoreException {
         for (IProject p : projects) {
-            addCandidatesFromSingleProject(candidates, p);
+            processContainer(candidates, p);
         }
     }
 
-    private void addCandidatesFromSingleProject(List<DerivedResource> candidates, IProject p) throws CoreException {
-        System.out.println("processing project: " + p.getName());
-        if (p.isAccessible()) {
-            for (IResource folder : p.members()) {
-                if (isCandidate(folder)) {
-                    candidates.add(new DerivedResource(folder));
+    private void processContainer(List<DerivedResource> candidates, IContainer parent) throws CoreException {
+        if (parent.isAccessible()) {
+            for (IResource member : parent.members()) {
+                if (isFolder(member)) {
+                    System.out.println("processing folder: " + parent.getFullPath());
+                    IFolder folder = (IFolder) member;
+                    processContainer(candidates, folder);
+                    addFolderIfCandidate(candidates, folder);
                 }
             }
         }
+    }
+
+    private void addFolderIfCandidate(List<DerivedResource> candidates, IFolder folder) throws CoreException {
+        if (isCandidate(folder)) {
+            candidates.add(new DerivedResource(folder));
+        }
+    }
+
+    private boolean isFolder(IResource folder) {
+        return folder.getType() == 2;
     }
 
     private boolean isCandidate(IResource folder) {

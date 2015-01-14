@@ -57,7 +57,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         hookContextMenu();
         hookDoubleClickAction();
         contributeToActionBars();
-        viewer.setInput(derivedResources.getAllCandidatesInWorkspace());
+        viewer.setInput(derivedResources.allDerivedResourcesInWorkspace());
         viewer.refresh();
         subscribeToEvents();
     }
@@ -99,7 +99,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         action1 = new Action() {
             public void run() {
                 toggle();
-                viewer.setInput(derivedResources.getAllCandidatesInWorkspace());
+                viewer.setInput(derivedResources.allDerivedResourcesInWorkspace());
             }
         };
         action1.setText("Toggle ALL");
