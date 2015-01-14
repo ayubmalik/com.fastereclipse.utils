@@ -1,6 +1,9 @@
 package com.fastereclipse.utils.dr.views;
 
+import static com.fastereclipse.utils.dr.handlers.MyEvents.TOGGLED_RESOURCES;
+
 import org.eclipse.core.resources.ResourcesPlugin;
+import org.eclipse.e4.core.services.events.IEventBroker;
 import org.eclipse.jface.action.Action;
 import org.eclipse.jface.action.IMenuListener;
 import org.eclipse.jface.action.IMenuManager;
@@ -25,11 +28,13 @@ import org.eclipse.ui.IWorkbenchActionConstants;
 import org.eclipse.ui.PlatformUI;
 import org.eclipse.ui.handlers.IHandlerService;
 import org.eclipse.ui.part.ViewPart;
+import org.osgi.service.event.Event;
+import org.osgi.service.event.EventHandler;
 
 import com.fastereclipse.utils.dr.model.DerivedResource;
 import com.fastereclipse.utils.dr.model.DerivedResources;
 
-public class DerivedResourcesView extends ViewPart {
+public class DerivedResourcesView extends ViewPart implements EventHandler {
 
     public static final String ID = "com.fastereclipse.utils.dr.views.DerivedResourcesView";
 
@@ -54,6 +59,7 @@ public class DerivedResourcesView extends ViewPart {
         contributeToActionBars();
         viewer.setInput(derivedResources.getAllCandidatesInWorkspace());
         viewer.refresh();
+        subscribeToEvents();
     }
 
     private void hookContextMenu() {
@@ -165,4 +171,16 @@ public class DerivedResourcesView extends ViewPart {
             throw new RuntimeException("com.fastereclipse.utils.dr.commands.toggle error!");
         }
     }
+
+    @Override
+    public void handleEvent(Event event) {
+        viewer.refresh();
+    }
+
+    private void subscribeToEvents() {
+        Object service = PlatformUI.getWorkbench().getService(IEventBroker.class);
+        if (service instanceof IEventBroker)
+            ((IEventBroker) service).subscribe(TOGGLED_RESOURCES, this);
+    }
+
 }
