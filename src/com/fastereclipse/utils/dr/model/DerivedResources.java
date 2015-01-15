@@ -33,7 +33,7 @@ public class DerivedResources {
 
     private List<DerivedResource> allCandidateDerivedResourcesInWorkspace() {
         IProject[] projects = workspace.getRoot().getProjects();
-        List<DerivedResource> candidates = new ArrayList<>();
+        List<DerivedResource> candidates = new ArrayList<DerivedResource>();
         try {
             addCandidatesFromAllProjects(projects, candidates);
         } catch (CoreException e) {

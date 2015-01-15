@@ -1,6 +1,6 @@
 <?xml version="1.0" encoding="UTF-8"?>
 <project default="plugin_export" name="build">
-	<property name="dest.dir" value="/home/ayub/Downloads"/>
+	<property name="dest.dir" value="/home/malika/Downloads"/>
 	<target name="plugin_export">
 		<pde.exportPlugins destination="${dest.dir}" exportSource="false" exportType="zip" filename="com.fastereclipse.utils-1.0.0.zip" plugins="com.fastereclipse.utils" useJARFormat="true"/>
 	</target>
