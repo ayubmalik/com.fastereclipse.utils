@@ -44,6 +44,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
 
     private final DerivedResources derivedResources = new DerivedResources(ResourcesPlugin.getWorkspace());
 
+    @Override
     public void createPartControl(Composite parent) {
         viewer = new TableViewer(parent, SWT.NO_FOCUS | SWT.H_SCROLL | SWT.V_SCROLL);
         viewer.setContentProvider(ArrayContentProvider.getInstance());
@@ -66,6 +67,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         MenuManager menuMgr = new MenuManager("#PopupMenu");
         menuMgr.setRemoveAllWhenShown(true);
         menuMgr.addMenuListener(new IMenuListener() {
+            @Override
             public void menuAboutToShow(IMenuManager manager) {
                 DerivedResourcesView.this.fillContextMenu(manager);
             }
@@ -97,6 +99,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
 
     private void makeActions() {
         action1 = new Action() {
+            @Override
             public void run() {
                 toggle();
                 viewer.setInput(derivedResources.allDerivedResourcesInWorkspace());
@@ -106,6 +109,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         action1.setToolTipText("Toggle ALL Derived Resources");
 
         doubleClickAction = new Action() {
+            @Override
             public void run() {
                 ISelection selection = viewer.getSelection();
                 Object obj = ((IStructuredSelection) selection).getFirstElement();
@@ -116,6 +120,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
 
     private void hookDoubleClickAction() {
         viewer.addDoubleClickListener(new IDoubleClickListener() {
+            @Override
             public void doubleClick(DoubleClickEvent event) {
                 doubleClickAction.run();
             }
@@ -126,13 +131,14 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         MessageDialog.openInformation(viewer.getControl().getShell(), "DerivedResourcesView", message);
     }
 
+    @Override
     public void setFocus() {
         viewer.getControl().setFocus();
     }
 
     private void createColumns(Composite parent, TableViewer viewer) {
         // first column is for the resource name
-        TableViewerColumn col = createTableViewerColumn("Resources", 240, 0);
+        TableViewerColumn col = createTableViewerColumn("Resources", 512);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -142,7 +148,7 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         });
 
         // second column is for derived flag
-        col = createTableViewerColumn("Derived?", 80, 1);
+        col = createTableViewerColumn("Derived?", 256);
         col.setLabelProvider(new ColumnLabelProvider() {
             @Override
             public String getText(Object element) {
@@ -152,12 +158,12 @@ public class DerivedResourcesView extends ViewPart implements EventHandler {
         });
     }
 
-    private TableViewerColumn createTableViewerColumn(String title, int bound, int colNumber) {
+    private TableViewerColumn createTableViewerColumn(String title, int bound) {
         TableViewerColumn viewerColumn = new TableViewerColumn(viewer, SWT.NONE);
         TableColumn column = viewerColumn.getColumn();
         column.setText(title);
         column.setWidth(bound);
-        column.setResizable(false);
+        column.setResizable(true);
         column.setMoveable(false);
         return viewerColumn;
     }
