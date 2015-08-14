@@ -14,7 +14,7 @@ import org.eclipse.core.runtime.CoreException;
 
 public class DerivedResources {
 
-    private final List<String> candidateDerivedResourceNames = asList("bin", "build", "target");
+    private final List<String> candidateDerivedResourceNames = asList("bin", "build", "target", "node_modules");
     private final IWorkspace workspace;
 
     public DerivedResources(IWorkspace workspace) {
@@ -37,6 +37,7 @@ public class DerivedResources {
         try {
             addCandidatesFromAllProjects(projects, candidates);
         } catch (CoreException e) {
+            // TODO: log
             e.printStackTrace();
         }
         return candidates;
@@ -49,11 +50,11 @@ public class DerivedResources {
         }
     }
 
-    private void processContainer(List<DerivedResource> candidates, IContainer parent) throws CoreException {
-        if (parent.isAccessible()) {
-            for (IResource member : parent.members()) {
+    private void processContainer(List<DerivedResource> candidates, IContainer project) throws CoreException {
+        if (project.isAccessible()) {
+            for (IResource member : project.members()) {
                 if (isFolder(member)) {
-                    System.out.println("processing folder: " + parent.getFullPath());
+                    System.out.println("processing folder: " + project.getFullPath());
                     IFolder folder = (IFolder) member;
                     processContainer(candidates, folder);
                     addFolderIfCandidate(candidates, folder);
