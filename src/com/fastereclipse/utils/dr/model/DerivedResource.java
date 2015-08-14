@@ -5,7 +5,7 @@ import org.eclipse.core.runtime.CoreException;
 
 public class DerivedResource {
 
-    private IResource delegate;
+    private final IResource delegate;
 
     public DerivedResource(IResource delegate) {
         this.delegate = delegate;
